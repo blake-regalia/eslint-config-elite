@@ -1,5 +1,5 @@
 {
-	"name": "@blake.regalia/eslint-config-elite",
+	"name": "@blake.regalia/eslint-config",
 	"version": "0.1.0",
 	"description": "ESLint config enforcing snake-type semantics and opinionated styling",
 	"keywords": [

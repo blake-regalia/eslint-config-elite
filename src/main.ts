@@ -861,7 +861,7 @@ const GC_APP = {
 	},
 };
 
-module.exports = {
+const gc_core = {
 	// top-level property
 	root: true,
 
@@ -872,33 +872,46 @@ module.exports = {
 
 	// all plugins used
 	plugins: [
-		'svelte3',
 		'@typescript-eslint',
 		'typescript-sort-keys',
 		'modules-newline',
 		'i',
 	],
+};
 
-	// file-specific overrides
-	overrides: [
-		{
-			files: ['*.svelte'],
-			processor: 'svelte3/svelte3',
-			...GC_APP,
-			// parser: 'svelte-eslint-parser',
-			// parserOptions: {
-			// 	parser: {
-			// 		ts: '@typescript-eslint/parser',
-			// 	},
-			// },
-		},
-		{
-			files: ['*.ts', '*.d.ts'],
-			...GC_APP,
-		},
-	],
+module.exports = {
+	configs: {
+		core: gc_core,
 
-	// inherit non-typescript rules from app config
-	rules: Object.fromEntries(Object.entries(GC_APP.rules)
-		.filter(([si_rule, w_rule]) => !si_rule.startsWith('@typescript'))),
+		svelte: {
+			// all plugins used
+			plugins: [
+				...gc_core.plugins,
+				'svelte3',
+			],
+
+			// file-specific overrides
+			overrides: [
+				{
+					files: ['*.svelte'],
+					processor: 'svelte3/svelte3',
+					...GC_APP,
+					// parser: 'svelte-eslint-parser',
+					// parserOptions: {
+					// 	parser: {
+					// 		ts: '@typescript-eslint/parser',
+					// 	},
+					// },
+				},
+				{
+					files: ['*.ts', '*.d.ts'],
+					...GC_APP,
+				},
+			],
+
+			// inherit non-typescript rules from app config
+			rules: Object.fromEntries(Object.entries(GC_APP.rules)
+				.filter(([si_rule, w_rule]) => !si_rule.startsWith('@typescript'))),
+		},
+	},
 };
