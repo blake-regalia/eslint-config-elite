@@ -224,22 +224,29 @@ const GC_APP = {
 	},
 
 	settings: {
-		// typescript lib
-		'svelte3/typescript': () => require('typescript'),
-		'svelte3/ignore-styles': () => true,
-		'svelte3/ignore-warnings': ({code}: {code:string}) => [
-			'a11y-click-events-have-key-events',
-		].includes(code),
+		// // typescript lib
+		// 'svelte3/typescript': () => require('typescript'),
+		// 'svelte3/ignore-styles': () => true,
+		// 'svelte3/ignore-warnings': ({code}: {code:string}) => [
+		// 	'a11y-click-events-have-key-events',
+		// ].includes(code),
 
 		'i/parsers': {
-			'@typescript-eslint/parser': ['.ts', '.svelte'],
+			'@typescript-eslint/parser': [
+				'.ts',
+				'.svelte',
+			],
 		},
 
 		'i/resolver': {
 			typescript: {
 				alwaysTryTypes: true,
 
-				extensions: ['.ts', '.d.ts', '.svelte'],
+				extensions: [
+					'.ts',
+					'.d.ts',
+					'.svelte',
+				],
 			},
 		},
 	},
@@ -879,39 +886,39 @@ const gc_core = {
 	],
 };
 
-module.exports = {
-	configs: {
-		core: gc_core,
+module.exports = gc_core;
 
-		svelte: {
-			// all plugins used
-			plugins: [
-				...gc_core.plugins,
-				'svelte3',
-			],
 
-			// file-specific overrides
-			overrides: [
-				{
-					files: ['*.svelte'],
-					processor: 'svelte3/svelte3',
-					...GC_APP,
-					// parser: 'svelte-eslint-parser',
-					// parserOptions: {
-					// 	parser: {
-					// 		ts: '@typescript-eslint/parser',
-					// 	},
-					// },
-				},
-				{
-					files: ['*.ts', '*.d.ts'],
-					...GC_APP,
-				},
-			],
 
-			// inherit non-typescript rules from app config
-			rules: Object.fromEntries(Object.entries(GC_APP.rules)
-				.filter(([si_rule, w_rule]) => !si_rule.startsWith('@typescript'))),
-		},
-	},
-};
+// 		svelte: {
+// 			// all plugins used
+// 			plugins: [
+// 				...gc_core.plugins,
+// 				'svelte3',
+// 			],
+
+// 			// file-specific overrides
+// 			overrides: [
+// 				{
+// 					files: ['*.svelte'],
+// 					processor: 'svelte3/svelte3',
+// 					...GC_APP,
+// 					// parser: 'svelte-eslint-parser',
+// 					// parserOptions: {
+// 					// 	parser: {
+// 					// 		ts: '@typescript-eslint/parser',
+// 					// 	},
+// 					// },
+// 				},
+// 				{
+// 					files: ['*.ts', '*.d.ts'],
+// 					...GC_APP,
+// 				},
+// 			],
+
+// 			// inherit non-typescript rules from app config
+// 			rules: Object.fromEntries(Object.entries(GC_APP.rules)
+// 				.filter(([si_rule, w_rule]) => !si_rule.startsWith('@typescript'))),
+// 		},
+// 	},
+// };
