@@ -868,7 +868,7 @@ const GC_APP = {
 	},
 };
 
-const gc_core = {
+module.exports = {
 	// top-level property
 	root: true,
 
@@ -884,9 +884,19 @@ const gc_core = {
 		'modules-newline',
 		'i',
 	],
-};
 
-module.exports = gc_core;
+	// file-specific overrides
+	overrides: [
+		{
+			files: ['*.ts', '*.d.ts'],
+			...GC_APP,
+		},
+	],
+
+	// inherit non-typescript rules from app config
+	rules: Object.fromEntries(Object.entries(GC_APP.rules)
+		.filter(([si_rule, w_rule]) => !si_rule.startsWith('@typescript'))),
+};
 
 
 
