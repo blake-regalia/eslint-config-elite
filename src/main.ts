@@ -1,11 +1,11 @@
 import type {
 	Dict,
-} from '@solar-republic/belt';
+} from '@blake.regalia/belt';
 
 import {
 	fold,
 	oderac,
-} from '@solar-republic/belt';
+} from '@blake.regalia/belt';
 
 const SX_POW2 = '(?:8|16|32|64)';
 
