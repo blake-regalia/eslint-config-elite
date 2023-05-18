@@ -202,10 +202,9 @@ const GC_APP = {
 
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
-		ecmaVersion: 2021,
+		ecmaVersion: 2022,
 		sourceType: 'module',
 		tsconfigRootDir: __dirname,
-		project: ['../../tsconfig.json'],
 		extraFileExtensions: [
 			'.svelte',
 		],
@@ -838,7 +837,7 @@ const GC_APP = {
 				nonwords: false,
 			}],
 			'spaced-comment': ['warn','always', {
-				exceptions: ['-*'],
+				exceptions: ['-*', '#__PURE__'],
 				markers: ['/'],
 			}],
 			'switch-colon-spacing': ['warn'],
