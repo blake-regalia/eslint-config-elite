@@ -10,7 +10,7 @@ import {
 const SX_POW2 = '(?:8|16|32|64)';
 
 const A_PRIMITIVE_STRING = [
-	`s([aihpqrx]|x?b\\d+)?`, 'p[r]?',
+	`s([aghipqrx]|x?b\\d+)?`, 'p[r]?',
 ];
 
 const H_PRIMITIVES: Record<NamingConvTypes | '_other', string[]> = {
