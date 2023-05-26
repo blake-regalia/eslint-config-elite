@@ -9,10 +9,11 @@ module.exports = {
 
 	// file-specific overrides
 	overrides: [
+		...gc_core.overrides,
 		{
+			...gc_core.overrides[0],
 			files: ['*.svelte'],
 			processor: 'svelte3/svelte3',
-			...GC_APP,
 			// parser: 'svelte-eslint-parser',
 			// parserOptions: {
 			// 	parser: {
@@ -20,6 +21,5 @@ module.exports = {
 			// 	},
 			// },
 		},
-		...gc_core.overrides,
 	],
 };
