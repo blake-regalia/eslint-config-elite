@@ -12,7 +12,7 @@
 		"url": "https://blake-regalia.com/"
 	},
 	"type": "commonjs",
-	"main": "dist/main.js",
+	"main": "dist/main.cjs",
 	"types": "dist/main.d.ts",
 	"scripts": {
 		"build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript"
