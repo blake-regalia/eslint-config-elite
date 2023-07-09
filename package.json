@@ -18,17 +18,17 @@
 		"build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript"
 	},
 	"devDependencies": {
-		"@blake.regalia/tsconfig": "^0.0.1",
-		"@rollup/plugin-node-resolve": "^15.0.2",
-		"@rollup/plugin-typescript": "^11.1.1",
-		"@types/node": "^20.1.4",
-		"rollup": "^3.21.7",
-		"typescript": "^5.0.4"
+		"@blake.regalia/tsconfig": "^0.1.2",
+		"@rollup/plugin-node-resolve": "^15.1.0",
+		"@rollup/plugin-typescript": "^11.1.2",
+		"@types/node": "^20.4.1",
+		"rollup": "^3.26.2",
+		"typescript": "^5.1.6"
 	},
 	"dependencies": {
-		"@blake.regalia/belt": "^0.6.1",
-		"@typescript-eslint/eslint-plugin": "^5.59.5",
-		"eslint-plugin-i": "^2.27.5-1",
+		"@blake.regalia/belt": "^0.15.0",
+		"@typescript-eslint/eslint-plugin": "^5.61.0",
+		"eslint-plugin-i": "^2.27.5-4",
 		"eslint-plugin-modules-newline": "^0.0.6",
 		"eslint-plugin-sort-keys": "^2.3.5",
 		"eslint-plugin-typescript-sort-keys": "^2.3.0"
