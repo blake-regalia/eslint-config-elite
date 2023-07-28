@@ -628,7 +628,7 @@ const GC_APP = {
 						catch: {after:false},
 					},
 				}],
-				'lines-between-class-members': ['warn', {
+				'lines-between-class-members': ['warn', 'always', {
 					exceptAfterSingleLine: true,
 				}],
 				'object-curly-spacing': ['warn'],
