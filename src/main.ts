@@ -404,6 +404,7 @@ const GC_APP = {
 							'unnecessary-qualifier',
 							'loop-func',
 							'unused-expressions',
+							'unused-vars',
 							'useless-constructor',
 						]),
 
