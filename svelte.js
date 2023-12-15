@@ -6,7 +6,7 @@ module.exports = {
 	// all plugins used
 	plugins: [
 		...gc_core.plugins,
-		'svelte3',
+		'svelte',
 	],
 
 	// file-specific overrides
@@ -15,23 +15,40 @@ module.exports = {
 		{
 			...GC_APP,
 			files: ['*.svelte'],
-			processor: 'svelte3/svelte3',
+			extends: ['plugin:svelte/recommended'],
+			parser: 'svelte-eslint-parser',
+			parserOptions: {
+				extraFileExtensions: ['.svelte'],
+				parser: {
+					js: 'espree',
+					ts: '@typescript-eslint/parser',
+					typescript: '@typescript-eslint/parser',
+				},
+			},
 			settings: {
 				...GC_APP.settings,
 
-				// typescript lib
-				'svelte3/typescript': () => require('typescript'),
-				'svelte3/ignore-styles': () => true,
-				'svelte3/ignore-warnings': ({code}) => [
-					'a11y-click-events-have-key-events',
-				].includes(code),
+				svelte: {
+					ignoreWarnings: [
+						'a11y-no-static-element-interactions'
+					],
+				},
+
+				// // typescript lib
+				// 'svelte3/typescript': () => require('typescript'),
+				// 'svelte3/ignore-styles': () => true,
+				// 'svelte3/ignore-warnings': ({code}) => [
+				// 	'a11y-click-events-have-key-events',
+				// ].includes(code),
 			},
-			// parser: 'svelte-eslint-parser',
-			// parserOptions: {
-			// 	parser: {
-			// 		ts: '@typescript-eslint/parser',
-			// 	},
-			// },
+
+			rules: {
+				...GC_APP.rules,
+
+				'svelte/valid-compile': ['error', {
+					ignoreWarnings: true,
+				}],
+			},
 		},
 	],
 };
