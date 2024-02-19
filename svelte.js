@@ -30,7 +30,7 @@ module.exports = {
 
 				svelte: {
 					ignoreWarnings: [
-						'a11y-no-static-element-interactions'
+						'a11y-no-static-element-interactions',
 					],
 				},
 
