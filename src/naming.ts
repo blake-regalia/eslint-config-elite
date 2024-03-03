@@ -18,7 +18,7 @@ const H_PRIMITIVES: Record<NamingConvTypes | '_other', string[]> = {
 		'a',
 	],
 	function: [
-		'f[gke]?',
+		'f[gk]?e?',
 	],
 	_other: [
 		'd[a-z]{0,2}', 'e', 'g[ca-z]?',
