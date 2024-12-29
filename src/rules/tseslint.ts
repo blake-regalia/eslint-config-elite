@@ -19,6 +19,7 @@ export const H_RULES_TSESLINT = under({
 			'switch-exhaustiveness-check',
 			'unified-signatures',
 			'consistent-type-imports',
+			'only-throw-error',
 		]),
 
 		...error([
