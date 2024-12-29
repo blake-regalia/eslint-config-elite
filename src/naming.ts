@@ -1,4 +1,4 @@
-import {concat_entries} from '@blake.regalia/belt';
+import {concat_entries, type Arrayable} from '@blake.regalia/belt';
 
 const SX_POW2 = '(?:8|16|32|64)';
 
@@ -52,13 +52,16 @@ type NamingConvModifier =
 	| 'requiresQuotes'
 	| 'unused';
 
-type NamingConvSelector = 'accessor'
+type NamingConvSelector = 
+	| 'classicAccessor'
+	| 'autoAccessor'
 	| 'class'
 	| 'classMethod'
 	| 'classProperty'
 	| 'enum'
 	| 'enumMember'
 	| 'function'
+	| 'import'
 	| 'interface'
 	| 'objectLiteralMethod'
 	| 'objectLiteralProperty'
@@ -69,6 +72,15 @@ type NamingConvSelector = 'accessor'
 	| 'typeParameter'
 	| 'typeProperty'
 	| 'variable';
+
+type NamingConvGroupSelector =
+	| 'default'
+	| 'accessor'
+	| 'memberLike'
+	| 'method'
+	| 'property'
+	| 'typeLike'
+	| 'variableLike';
 
 type NamingConvTypes =
 	| 'array'
@@ -110,7 +122,7 @@ interface NamingConvOption {
 	suffix?: string[];
 
 	// selector options
-	selector: NamingConvSelector | NamingConvSelector[];
+	selector: Arrayable<NamingConvSelector | NamingConvGroupSelector>;
 	filter?: string | {
 		regex: string;
 		match: boolean;
@@ -124,7 +136,7 @@ interface SnakeConfig {
 	patterns: string[];
 	caps?: 'only' | 'optional';
 	short?: boolean;
-	selector?: NamingConvSelector;
+	selector?: NamingConvSelector | NamingConvGroupSelector;
 	modifiers?: NamingConvModifier[];
 	format?: NamingConvFormat[];
 	regex?: string;
@@ -173,7 +185,7 @@ function* snake_types(a_configs: SnakeConfig[]) {
 	}
 }
 
-export const A_NAMING_CONVENTION_RULES = [
+export const A_NAMING_CONVENTION_RULES: NamingConvOption[] = [
 	{
 		selector: 'typeParameter',
 		format: ['snake_case'],
@@ -281,4 +293,13 @@ export const A_NAMING_CONVENTION_RULES = [
 	// 	},
 	// 	selector: 'parameter',
 	// },
+
+	{
+		selector: 'parameter',
+		format: ['camelCase'],
+		filter: {
+			regex: '^this$',
+			match: true,
+		},
+	}
 ];

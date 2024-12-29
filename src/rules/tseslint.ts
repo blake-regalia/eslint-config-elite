@@ -48,6 +48,8 @@ export const H_RULES_TSESLINT = under({
 					'invalid-void-type',
 					'confusing-void-expression',
 					'empty-object-type',
+					'unnecessary-type-parameters',
+					'unsafe-function-type',
 				]),
 
 				...warn([
