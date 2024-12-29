@@ -21,9 +21,3 @@ module 'eslint-plugin-i' {
 	const config: PackageConfig;
 	export = config;
 }
-
-module 'eslint-plugin-perfectionist' {
-	export const configs: {
-		'recommended-natural': PackageConfig;
-	};
-}

@@ -6,13 +6,13 @@ import {
 	fold,
 } from '@blake.regalia/belt';
 
-import {A_NAMING_CONVENTION_RULES} from './naming';
+import {A_NAMING_CONVENTION_RULES} from './naming.js';
 
 import * as typescript_eslint from '@typescript-eslint/eslint-plugin';
 // import * as sort_keys from 'eslint-plugin-typescript-sort-keys';
 import * as modules_newline from 'eslint-plugin-modules-newline';
 import * as eslint_plugin_i from 'eslint-plugin-i';
-import * as perfectionist from 'eslint-plugin-perfectionist';
+import perfectionist from 'eslint-plugin-perfectionist';
 
 function under(h_map: Dict<Dict<unknown>>): Dict<unknown> {
 	const h_out: Dict<unknown> = {};

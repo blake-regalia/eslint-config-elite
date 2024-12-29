@@ -1,4 +1,4 @@
-import { oderac } from "@blake.regalia/belt";
+import {concat_entries} from '@blake.regalia/belt';
 
 const SX_POW2 = '(?:8|16|32|64)';
 
@@ -216,7 +216,7 @@ export const A_NAMING_CONVENTION_RULES = [
 	// 	},
 	// },
 
-	...snake_types(oderac(H_PRIMITIVES, (si_type, a_patterns) => ({
+	...snake_types(concat_entries(H_PRIMITIVES, (si_type, a_patterns) => ({
 		selector: 'variable',
 		modifiers: ['const', 'global'],
 		types: [si_type],
@@ -225,13 +225,13 @@ export const A_NAMING_CONVENTION_RULES = [
 		format: 'function' === si_type? ['snake_case']: [],
 		regex: 'function' === si_type? '[a-z][a-z0-9_]+': '',
 	}))),
-	...snake_types(oderac(H_PRIMITIVES, (si_type: SnakeConvType, a_patterns) => ({
+	...snake_types(concat_entries(H_PRIMITIVES, (si_type: SnakeConvType, a_patterns) => ({
 		selector: 'variable',
 		types: [si_type],
 		patterns: a_patterns,
 		caps: 'optional',
 	}))),
-	...snake_types(oderac(H_PRIMITIVES, (si_type, a_patterns) => ({
+	...snake_types(concat_entries(H_PRIMITIVES, (si_type, a_patterns) => ({
 		selector: 'parameter',
 		types: [si_type],
 		patterns: a_patterns,

@@ -5,8 +5,11 @@
 		"baseUrl": ".",
 		"outDir": "dist/mjs",
 
-		"declaration": true,
-		"declarationDir": "dist/mjs"
+		// "declaration": true,
+		// "declarationDir": "dist/mjs",
+
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 	},
 
 	"include": [

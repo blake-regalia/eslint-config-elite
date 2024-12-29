@@ -3,25 +3,16 @@
 
 	"compilerOptions": {
 		"baseUrl": ".",
-		"outDir": "dist",
+		"outDir": "dist/mjs",
 
-		"declaration": true,
-		"declarationDir": "dist",
-		"esModuleInterop": true,
+		// "declaration": true,
+		// "declarationDir": "dist/mjs",
 
-		// "moduleResolution": "bundler",
-
-		// "typeRoots": [
-		// 	"node_modules/@types",
-		// ],
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
 	},
 
 	"include": [
-		"src/**/*.ts",
-		"rollup.config.ts"
-	],
-
-	"ts-node": {
-		"experimentalSpecifierResolution": "node"
-	}
+		"src/**/*.ts"
+	]
 }
