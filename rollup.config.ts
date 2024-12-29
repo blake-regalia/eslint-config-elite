@@ -14,13 +14,16 @@ export default defineConfig({
 	plugins: [
 		resolve(),
 
-		commonjs({
-			include: [
-				'eslint-plugin-typescript-sort-keys',
-				'eslint-plugin-modules-newline',
-				'eslint-plugin-i',
-			],
-		}),
+		// commonjs({
+		// 	include: [
+		// 		'eslint-plugin-typescript-sort-keys',
+		// 		'eslint-plugin-modules-newline',
+		// 		'eslint-plugin-i',
+		// 	],
+		// 	exclude: [
+		// 		'@typescript-eslint/eslint-plugin',
+		// 	],
+		// }),
 
 		typescript({
 			include: 'src/**/*.ts',

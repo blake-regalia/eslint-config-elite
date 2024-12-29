@@ -11,12 +11,25 @@
 		"email": "blake.regalia@gmail.com",
 		"url": "https://blake-regalia.com/"
 	},
-	"type": "commonjs",
-	"main": "dist/main.cjs",
-	"types": "dist/main.d.ts",
-	"scripts": {
-		"build": "rollup -c rollup.config.ts --configPlugin @rollup/plugin-typescript"
+	"type": "module",
+	"main": "dist/cjs/main.js",
+	"module": "dist/mjs/main.js",
+	"types": "dist/mjs/main.d.ts",
+	"exports": {
+	  "require": "./dist/cjs/main.js",
+	  "import": "./dist/mjs/main.js"
 	},
+	"files": [
+	  "dist"
+	],
+	"scripts": {
+	  "build:mjs": "tsc -p tsconfig.mjs.json",
+	  "build:cjs": "tsc -p tsconfig.cjs.json",
+	  "build": "pnpm run build:mjs && pnpm run build:cjs",
+	  "bundle": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+	  "test": "pnpm run build && bun test ./test/*.ts"
+	},
+
 	"devDependencies": {
 		"@blake.regalia/tsconfig": "^0.2.0",
 		"@rollup/plugin-commonjs": "^28.0.2",
