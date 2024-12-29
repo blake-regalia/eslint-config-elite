@@ -4,14 +4,15 @@ import type {
 
 import {
 	fold,
-	oderac,
 } from '@blake.regalia/belt';
 
 import {A_NAMING_CONVENTION_RULES} from './naming';
 
-// import typescript_eslint from '@typescript-eslint/eslint-plugin';
+import * as typescript_eslint from '@typescript-eslint/eslint-plugin';
 // import * as sort_keys from 'eslint-plugin-typescript-sort-keys';
-
+import * as modules_newline from 'eslint-plugin-modules-newline';
+import * as eslint_plugin_i from 'eslint-plugin-i';
+import * as perfectionist from 'eslint-plugin-perfectionist';
 
 function under(h_map: Dict<Dict<unknown>>): Dict<unknown> {
 	const h_out: Dict<unknown> = {};
@@ -165,10 +166,10 @@ const GC_APP = {
 				}],
 			},
 
-			'typescript-sort-keys/': {
-				'interface': 'off',
-				'string-enum': 'off',
-			},
+			// 'typescript-sort-keys/': {
+			// 	'interface': 'off',
+			// 	'string-enum': 'off',
+			// },
 
 			'@typescript-eslint/': {
 				'consistent-indexed-object-style': ['warn', 'record'],
@@ -598,17 +599,20 @@ export default {
 		es2020: true,
 	},
 
-	// all plugins used
-	plugins: [
-		'@typescript-eslint',
-		'typescript-sort-keys',
-		'modules-newline',
-		'i',
-	],
-	// plugins: {
-	// 	'@typescript-eslint': typescript_eslint,
-
-	// },
+	// // all plugins used
+	// plugins: [
+	// 	'@typescript-eslint',
+	// 	'typescript-sort-keys',
+	// 	'modules-newline',
+	// 	'i',
+	// ],
+	plugins: {
+		'@typescript-eslint': typescript_eslint,
+		// 'typescript-sort-keys': sort_keys,
+		'perfectionist': perfectionist.configs['recommended-natural'],
+		'modules-newline': modules_newline,
+		'i': eslint_plugin_i,
+	},
 
 	// file-specific overrides
 	overrides: [
