@@ -24,6 +24,7 @@ export const H_RULES_ESLINT = {
 				'inner-declarations',
 				'async-promise-executor',
 				'sparse-arrays',
+				'consstant-binary-expression',
 			]),
 
 			...warn([
