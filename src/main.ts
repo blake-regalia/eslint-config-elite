@@ -1,3 +1,5 @@
+import globals from 'globals';
+
 import type {
 	Dict,
 } from '@blake.regalia/belt';
@@ -32,20 +34,20 @@ const warn = (a_rules: string[]) => fold(a_rules, s => ({[s]:'warn'}));
 const error = (a_rules: string[]) => fold(a_rules, s => ({[s]:'error'}));
 
 const GC_APP = {
-	env: {
-		es2020: true,
-		browser: true,
-	},
-
-	parser: '@typescript-eslint/parser',
-	parserOptions: {
+	languageOptions: {
 		ecmaVersion: 2022,
 		sourceType: 'module',
-		tsconfigRootDir: import.meta.dirname,
-		extraFileExtensions: [
-			'.svelte',
-		],
+		globals: {
+			...globals.browser,
+			...globals.node,
+		},
+		parser: '@typescript-eslint/parser',
+		parserOptions: {
+			tsconfigRootDir: import.meta.dirname,
+			extraFileExtensions: ['.svelte'],
+		},
 	},
+
 
 	// inherit from recommended configs
 	extends: [
@@ -595,8 +597,8 @@ export default {
 	// root: true,
 
 	// default env that applies to all contexts
-	env: {
-		es2020: true,
+	languageOptions: {
+		ecmaVersion: 2022,
 	},
 
 	// // all plugins used
@@ -617,7 +619,6 @@ export default {
 	// file-specific overrides
 	overrides: [
 		{
-			files: ['*.ts', '*.d.ts'],
 			...GC_APP,
 		},
 	],
