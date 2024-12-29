@@ -55,7 +55,8 @@
 		"eslint-plugin-typescript-sort-keys": "^3.3.0",
 		"globals": "^15.14.0",
 		"svelte": "^5.16.0",
-		"svelte-eslint-parser": "^0.43.0"
+		"svelte-eslint-parser": "^0.43.0",
+		"typescript-eslint": "^8.18.2"
 	},
 	"peerDependencies": {
 		"@typescript-eslint/parser": ">=8",

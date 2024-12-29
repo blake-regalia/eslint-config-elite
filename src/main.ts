@@ -1,12 +1,8 @@
 import type {Linter} from 'eslint';
 
-// import {FlatCompat} from '@eslint/eslintrc';
+import {FlatCompat} from '@eslint/eslintrc';
 
 import globals from 'globals';
-
-import type {
-	Dict,
-} from '@blake.regalia/belt';
 
 import {
 	entries,
@@ -14,608 +10,161 @@ import {
 	from_entries,
 } from '@blake.regalia/belt';
 
-import {A_NAMING_CONVENTION_RULES} from './naming.js';
-
 import eslintjs from '@eslint/js';
-import stylistic_ts from '@stylistic/eslint-plugin-ts';
-import ts_plugins from '@typescript-eslint/eslint-plugin';
-import ts_parser from '@typescript-eslint/parser';
-import * as typescript_eslint from '@typescript-eslint/eslint-plugin';
-// import * as sort_keys from 'eslint-plugin-typescript-sort-keys';
+import stylistic from '@stylistic/eslint-plugin';
+import tseslint from 'typescript-eslint';
+import tseslint_parser from '@typescript-eslint/parser';
 import * as modules_newline from 'eslint-plugin-modules-newline';
 import * as eslint_plugin_i from 'eslint-plugin-i';
 import perfectionist from 'eslint-plugin-perfectionist';
+import { under, off, warn, error} from './util.js';
+import { H_RULES_TSESLINT } from './rules/tseslint.js';
+import { H_RULES_STYLISTIC } from './rules/stylistic.js';
+import { H_RULES_ESLINT } from './rules/eslint.js';
 
-function under(h_map: Dict<Dict<unknown>>): Dict<unknown> {
-	const h_out: Dict<unknown> = {};
+const compat = new FlatCompat({
+	baseDirectory: import.meta.dirname,
+});
 
-	for(const [si_prefix, h_parts] of Object.entries(h_map)) {
-		for(const [si_suffix, w_value] of Object.entries(h_parts)) {
-			h_out[si_prefix+si_suffix] = w_value;
-		}
-	}
+const G_APP = {
+	languageOptions: {
+		ecmaVersion: 2022,
+		sourceType: 'module',
+		globals: {
+			...globals.browser,
+			...globals.node,
+			chrome: 'readonly',
+		},
+		parser: tseslint_parser,
+		parserOptions: {
+			tsconfigRootDir: import.meta.dirname,
+			extraFileExtensions: ['.svelte'],
+		},
+	},
 
-	return h_out;
-}
-
-const off = (a_rules: string[]) => fold(a_rules, s => ({[s]:'off'}));
-const warn = (a_rules: string[]) => fold(a_rules, s => ({[s]:'warn'}));
-const error = (a_rules: string[]) => fold(a_rules, s => ({[s]:'error'}));
-
-const A_APP: Linter.Config[] = [
-	eslintjs.configs.recommended,
-	ts_plugins.configs['recommended'] as unknown as Linter.Config,
-	ts_plugins.configs['recommended-requiring-type-checking'] as unknown as Linter.Config,
-	ts_plugins.configs['strict'] as unknown as Linter.Config,
-	// stylistic_ts.default.configs['recommended-flat'],
-	{
-		languageOptions: {
-			ecmaVersion: 2022,
-			sourceType: 'module',
-			globals: {
-				...globals.browser,
-				...globals.node,
-				chrome: 'readonly',
-			},
-			parser: ts_parser,
-			parserOptions: {
-				tsconfigRootDir: import.meta.dirname,
-				extraFileExtensions: ['.svelte'],
-			},
+	settings: {
+		'i/parsers': {
+			'@typescript-eslint/parser': [
+				'.ts',
+				'.svelte',
+			],
 		},
 
-		settings: {
-			'i/parsers': {
-				'@typescript-eslint/parser': [
+		'i/resolver': {
+			typescript: {
+				alwaysTryTypes: true,
+
+				extensions: [
 					'.ts',
+					'.d.ts',
 					'.svelte',
 				],
 			},
-
-			'i/resolver': {
-				typescript: {
-					alwaysTryTypes: true,
-
-					extensions: [
-						'.ts',
-						'.d.ts',
-						'.svelte',
-					],
-				},
-			},
 		},
+	},
 
-		rules: {
-			// superceded by typescript-eslint
-			...off([
-				'object-curly-spacing',
-				'padding-line-between-statements',
-				'quotes',
-				'no-redeclare',
-				'no-throw-literal',
-				'no-ex-assign',
-			]),
+	rules: {
+		// superceded by typescript-eslint
+		...off([
+			'object-curly-spacing',
+			'padding-line-between-statements',
+			'quotes',
+			'no-redeclare',
+			'no-throw-literal',
+			'no-ex-assign',
+		]),
 
-			...under({
-				// 'modules-newline/': {
-				// 	'import-declaration-newline': ['warn'],
-				// 	'export-declaration-newline': ['warn'],
-				// },
+		...under({
+			// 'modules-newline/': {
+			// 	'import-declaration-newline': ['warn'],
+			// 	'export-declaration-newline': ['warn'],
+			// },
 
-				'i/': {
-					...warn([
-						'no-duplicates',
-						'no-self-import',
-						// 'first',
-					]),
-
-					...under({
-						'no-': {
-							cycle: ['warn', {
-								ignoreExternal: true,
-							}],
-						},
-					}),
-
-					order: ['warn', {
-						"groups": [
-							'type',
-							'builtin',
-							'external',
-							['sibling', 'parent'],
-							'index',
-							'object',
-						],
-
-						"alphabetize": {
-							order: 'asc',
-							caseInsensitive: true,
-						},
-
-						"pathGroups": [
-							{
-								pattern: 'ts-toolbelt',
-								group: 'type',
-								position: 'before',
-							},
-							{
-								pattern: 'ts-toolbelt/**',
-								group: 'type',
-								position: 'before',
-							},
-							{
-								pattern: '#/{meta,schema}/**',
-								group: 'type',
-								position: 'after',
-							},
-							{
-								pattern: '{#,##}/**',
-								group: 'sibling',
-								position: 'before',
-							},
-							// {
-							// 	pattern: '{.,..}/**/*.ts',
-							// 	group: 'index',
-							// },
-							// {
-							// 	pattern: './*',
-							// 	group: 'index',
-							// },
-							{
-								pattern: '{.,..}/**/*.svelte',
-								group: 'index',
-							},
-						],
-
-						'newlines-between': 'always-and-inside-groups',
-					}],
-				},
-
-				// 'typescript-sort-keys/': {
-				// 	'interface': 'off',
-				// 	'string-enum': 'off',
-				// },
-
-				'@stylistic/ts/': {
-					...warn([
-						'type-annotation-spacing',
-						'comma-spacing',
-						'func-call-spacing',
-					]),
-
-					...{
-						// disabled until implementing custom rule to allow space in import statements
-						'object-curly-spacing': 'off',
-						'padding-line-between-statements': ['warn',
-							fold([
-								'block',
-								'block-like',
-								// 'import/import',
-							], sx_rule => ({
-								blankLine: 'always',
-								prev: sx_rule.split(/\//)[0],
-								next: sx_rule.split(/\//)[1] || '*',
-							})),
-						],
-
-						'quotes': ['warn', 'single', {
-							avoidEscape: true,
-							allowTemplateLiterals: true,
-						}],
-					},
-					
-					...under({
-						'no-': {
-							'extra-parens': ['warn', 'all', {
-								nestedBinaryExpressions: false,
-								returnAssign: false,
-								enforceForNewInMemberExpressions: false,
-								enforceForFunctionPrototypeMethods: false,
-								enforceForSequenceExpressions: false,
-							}],
-						},
-
-						'member-': {
-							'delimiter-style': ['warn'],
-						},
-					}),
-
-					// extension rules
-					'brace-style': ['warn', 'stroustrup', {
-						allowSingleLine: true,
-					}],
-
-					'comma-dangle': ['warn', {
-						arrays: 'always-multiline',
-						objects: 'always-multiline',
-						imports: 'always-multiline',
-						exports: 'always-multiline',
-						functions: 'never',
-						enums: 'always-multiline',
-						generics: 'always-multiline',
-						tuples: 'always-multiline',
-					}],
-
-					'indent': ['warn', 'tab', {
-						SwitchCase: 1,
-						VariableDeclarator: 0,
-						ignoreComments: true,
-						ignoredNodes: [
-							'TSTypeParameterInstantiation',
-						],
-					}],
-
-					'keyword-spacing': ['warn', {
-						overrides: {
-							if: {after:false},
-							for: {after:false},
-							await: {after:false},
-							while: {after:false},
-							switch: {after:false},
-							catch: {after:false},
-						},
-					}],
-
-					'lines-between-class-members': ['warn', 'always', {
-						exceptAfterSingleLine: true,
-					}],
-					'object-curly-spacing': ['warn'],
-					'quotes': ['warn', 'single', {
-						avoidEscape: true,
-						allowTemplateLiterals: true,
-					}],
-					'semi': ['warn', 'always'],
-					'space-before-function-paren': ['warn','never'],
-				},
-
-				'@typescript-eslint/': {
-					'consistent-indexed-object-style': ['warn', 'record'],
-
-					'explicit-module-boundary-types': ['warn'],
-
-					...off([
-						'array-type',
-						'restrict-plus-operands',
-						'ban-types',
-						'consistent-type-definitions',
-					]),
-
-					...warn([
-						'switch-exhaustiveness-check',
-						'unified-signatures',
-						'consistent-type-imports',
-					]),
-
-					...error([
-						'default-param-last',
-					]),
-
-					// extends/overrides base eslint rules
-					...{
-						'dot-notation': 'off',
-					},
-
-					...under({
-						'no-': {
-							...off([
-								'non-null-assertion',
-								'namespace',
-								'unnecessary-type-constraint',
-								'explicit-any',
-								'unsafe-member-access',
-								'unsafe-call',
-								'unsafe-assignment',
-								'unsafe-return',
-								'empty-interface',
-								'unnecessary-condition',
-								'redeclare',
-								'dynamic-delete',
-								'invalid-void-type',
-							]),
-
-							...warn([
-								'unnecessary-qualifier',
-								'loop-func',
-								'unused-expressions',
-								'unused-vars',
-								'useless-constructor',
-							]),
-
-							...error([
-								'invalid-this',
-								'shadow',
-							]),
-
-
-							'floating-promises': ['warn', {
-								ignoreVoid: true,
-								ignoreIIFE: true,
-							}],
-
-							'this-alias': ['warn', {
-								allowedNames: [
-									'k_self',
-									'k_node',
-								],
-							}],
-
-							'use-before-define': ['error', {
-								classes: false,
-								variables: false,
-								functions: false,
-								ignoreTypeReferences: true,
-							}],
-
-							'misused-promises': ['warn', {
-								checksVoidReturn: {
-									arguments: false,
-								},
-							}],
-						},
-
-						'prefer-': {
-							...off([
-								'nullish-coalescing',
-							]),
-
-							...warn([
-								'for-of',
-								'optional-chain',
-								'ts-expect-error',
-								'readonly',
-							]),
-						},
-
-						'member-': {
-							'ordering': ['warn', {
-								classes: [
-									'static-field',
-									'static-method',
-									'instance-field',
-									'constructor',
-									'abstract-field',
-									'abstract-method',
-									'instance-method',
-								].flatMap(s => [`private-${s}`, `protected-${s}`, `public-${s}`])
-									.filter(s => !['private-abstract-field', 'private-abstract-method'].includes(s)),
-							}],
-						},
-					}),
-
-					'restrict-template-expressions': ['warn', {
-						allowNumber: true,
-						allowBoolean: true,
-						allowAny: true,
-					}],
-
-					'class-literal-property-style': ['warn', 'fields'],
-
-					'naming-convention': ['warn', ...A_NAMING_CONVENTION_RULES],
-				},
-			}),
-
-
-			// eslint
-			...{
-				'for-direction': ['error'],
-				'getter-return': ['error', {
-					allowImplicit: true,
-				}],
-				// # 
-				'valid-typeof': ['error', {
-					requireStringLiterals: true,
-				}],
-
-				// # "Best Practices"
-				'array-callback-return': ['error'],
-				'class-methods-use-this': ['warn'],
-				'curly': ['error', 'multi-line', 'consistent'],
-				'default-case': ['error'],
-				'dot-location': ['error', 'property'],
-				'eqeqeq': ['error'],
+			'i/': {
+				...warn([
+					'no-duplicates',
+					'no-self-import',
+					// 'first',
+				]),
 
 				...under({
 					'no-': {
-						...off([
-							'inner-declarations',
-							'async-promise-executor',
-						]),
-
-						...warn([
-							'extra-label',
-							'self-assign',
-							'unused-labels',
-							'useless-concat',
-							'useless-escape',
-							'warning-comments',
-							'shadow-restricted-names',
-							'lonely-if',
-							'mixed-operators',
-							'whitespace-before-property',
-							'useless-computed-key',
-							'sequences',
-						]),
-
-						...error([
-							'caller',
-							'extend-native',
-							'extra-bind',
-							'implied-eval',
-							'iterator',
-							'multi-str',
-							'new-func',
-							'new-wrappers',
-							'octal-escape',
-							'proto',
-							'script-url',
-							'self-compare',
-							'throw-literal',
-							'unmodified-loop-condition',
-							'useless-call',
-							// 'void',
-							'with',
-							'new-object',
-
-							// variables
-							'label-var',
-							'restricted-globals',
-							'undef-init',
-							'undefined',
-							'var',
-						]),
-
-						// 'sequences': ['warn', {
-						// 	allowInParentheses: true,
-						// }],
-
-						'trailing-spaces': ['warn', {
-							ignoreComments: true,
-						}],
-
-						'multiple-empty-lines': ['warn', {
-							max: 3,
-						}],
-						'unneeded-ternary': ['warn', {
-							defaultAssignment: false,
-						}],
-
-						'multi-spaces': ['warn', {
-							ignoreEOLComments: true,
-						}],
-
-						'await-in-loop': ['off'],
-						'cond-assign': ['error', 'except-parens'],
-						'console': ['warn', {
-							allow: ['time', 'warn', 'error', 'assert'],
-						}],
-						'control-regex': ['off'],
-						'debugger': ['warn'],
-						'empty': ['error', {
-							allowEmptyCatch: true,
-						}],
-
-						'template-curly-in-string': ['warn'],
-
-						// 'wrap-iife': ['error', 'inside'],
-					},
-
-					'prefer-': {
-						...warn([
-							'const',
-							'spread',
-							'promise-reject-errors',
-						]),
-
-						'arrow-callback': ['warn', {
-							allowNamedFunctions: true,
+						cycle: ['warn', {
+							ignoreExternal: true,
 						}],
 					},
 				}),
 
-				'wrap-iife': ['error', 'inside'],
+				order: ['warn', {
+					"groups": [
+						'type',
+						'builtin',
+						'external',
+						['sibling', 'parent'],
+						'index',
+						'object',
+					],
 
-				// eslint stylistic
-				'array-bracket-spacing': ['warn', 'never'],
-				'comma-style': ['warn'],
-				'computed-property-spacing': ['warn'],
-				'eol-last': ['warn'],
-				'implicit-arrow-linebreak': ['warn'],
-				'key-spacing': ['warn', {
-					singleLine: {
-						beforeColon: false,
-						afterColon: false,
+					"alphabetize": {
+						order: 'asc',
+						caseInsensitive: true,
 					},
-					multiLine: {
-						mode: 'strict',
-						beforeColon: false,
-						afterColon: true,
-					},
-				}],
-				'linebreak-style': ['error', 'unix'],
-				// 'multiline-ternary': ['warn', 'always-multiline'],
-				'multiline-ternary': 'off',
 
-				'new-cap': ['warn', {
-					newIsCap: false,
-					capIsNewExceptionPattern: '^[A-Z$_][A-Z$_0-9]*',
-					capIsNew: true,
-					properties: false,
-				}],
-				'new-parens': ['warn'],
-				'nonblock-statement-body-position': ['error', 'beside'],
-				// 'object-curly-newline': ['warn', {
-				// 	ObjectExpression: {
-				// 		multiline: true,
-				// 		minProperties: 2,
-				// 	},
-				// 	ObjectPattern: {
-				// 		multiline: true,
-				// 		minProperties: 2,
-				// 	},
-					// ImportDeclaration: {
-					// 	multiline: true,
-					// 	minProperties: 3,
-					// },
-				// 	ExportDeclaration: {
-				// 		multiline: true,
-				// 		minProperties: 2,
-				// 	},
-				// }],
-				'object-property-newline': ['warn', {
-					allowAllPropertiesOnSameLine: true,
-				}],
-				'one-var': ['warn', {
-					initialized: 'never',
-				}],
-				'operator-assignment': ['warn'],
-				'operator-linebreak': ['warn', 'before'],
-				'padded-blocks': ['warn', 'never'],
-				'quote-props': ['warn', 'consistent-as-needed'],
-				'semi-spacing': ['warn', {
-					before: false,
-					after: true,
-				}],
-				'semi-style': ['error'],
-				'space-before-blocks': ['warn','always'],
-				'space-in-parens': ['warn','never'],
-				'space-unary-ops': ['warn', {
-					words: true,
-					nonwords: false,
-				}],
-				'spaced-comment': ['warn','always', {
-					exceptions: ['-*', '#__PURE__'],
-					markers: ['/'],
-				}],
-				'switch-colon-spacing': ['warn'],
-				'template-tag-spacing': ['warn'],
-				'yoda': ['warn', 'always', {
-					onlyEquality: true,
-				}],
+					"pathGroups": [
+						{
+							pattern: 'ts-toolbelt',
+							group: 'type',
+							position: 'before',
+						},
+						{
+							pattern: 'ts-toolbelt/**',
+							group: 'type',
+							position: 'before',
+						},
+						{
+							pattern: '#/{meta,schema}/**',
+							group: 'type',
+							position: 'after',
+						},
+						{
+							pattern: '{#,##}/**',
+							group: 'sibling',
+							position: 'before',
+						},
+						// {
+						// 	pattern: '{.,..}/**/*.ts',
+						// 	group: 'index',
+						// },
+						// {
+						// 	pattern: './*',
+						// 	group: 'index',
+						// },
+						{
+							pattern: '{.,..}/**/*.svelte',
+							group: 'index',
+						},
+					],
 
-				// es6
-				'arrow-body-style': ['warn', 'as-needed'],
-				'arrow-parens': ['warn', 'as-needed', {
-					requireForBlockBody: true,
+					'newlines-between': 'always-and-inside-groups',
 				}],
-				'arrow-spacing': ['warn'],
-				'generator-star-spacing': ['warn', {
-					named: 'after',
-					anonymous: 'before',
-					method: 'after',
-				}],
-				// # prefer-template: warn
-				'rest-spread-spacing': ['warn', 'never'],
-				'symbol-description': ['warn'],
-				'template-curly-spacing': ['warn'],
-				'yield-star-spacing': ['warn'],
-				'no-fallthrough': ['warn'],
 			},
-		},
-	},
-];
 
-const a_export = [
-	// perfectionist.configs['recommended-natural'] as any,
+			// 'typescript-sort-keys/': {
+			// 	'interface': 'off',
+			// 	'string-enum': 'off',
+			// },
+		}),
+		
+		...H_RULES_STYLISTIC,
+		...H_RULES_TSESLINT as any,
+		...H_RULES_ESLINT,
+	},
+} satisfies Linter.Config;
+
+const a_export = tseslint.config([
+	eslintjs.configs.recommended,
+	tseslint.configs.strictTypeChecked,
+	tseslint.configs.stylisticTypeChecked,
 
 	// for all untyped js
 	{
@@ -627,43 +176,31 @@ const a_export = [
 		},
 
 		plugins: {
-			// '@typescript-eslint': typescript_eslint as any,
-			// 'typescript-sort-keys': sort_keys,
-			// 'perfectionist': perfectionist as any,
 			'perfectionist': perfectionist.configs['recommended-natural'] as any,
 			'modules-newline': modules_newline as any,
 			'i': eslint_plugin_i as any,
 		},
 
 		// inherit non-typescript rules from app config
-		rules: from_entries(entries(A_APP.at(-1)!.rules!)
+		rules: from_entries(entries(G_APP.rules)
 			.filter(([si_rule, w_rule]) => !/^@(typescript|stylistic)/.test(si_rule))),
 	},
 
 	// strongly typed
 	{
+		...G_APP,
 		name: 'elite-typescript',
 		files: ['**/*.{ts,d.ts,tsx}'],
-		...A_APP.at(-1)!,
 		plugins: {
-			...A_APP.at(-1)?.plugins ?? {},
-			'@stylistic/ts': stylistic_ts as any,
-			'@typescript-eslint': typescript_eslint as any,
-			// 'perfectionist': perfectionist.configs['recommended-natural'] as any,
-			// 'modules-newline': modules_newline as any,
-			// 'i': eslint_plugin_i as any,
+			// ...G_APP.plugins ?? {},
+			'@stylistic': stylistic as any,
+			// '@typescript-eslint': typescript_eslint as any,
+			'@typescript-eslint': tseslint.plugin,
 		},
 
-		rules: from_entries(entries(A_APP.at(-1)!.rules!)
+		rules: from_entries(entries(G_APP.rules)
 			.filter(([si_rule, w_rule]) => /^@(typescript|stylistic)/.test(si_rule))),
 	},
-	// {
-	// 	name: 'elite-untyped',
-	// 	files: ['**/*.{js,jsx,cjs,mjs}'],
-	// 	...ts_plugins.configs['disable-type-checked'] as any,
-	// },
-] satisfies Linter.Config[];
-
-debugger;
+]);
 
 export default a_export;
