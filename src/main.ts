@@ -161,6 +161,8 @@ const G_APP = {
 	},
 } satisfies Linter.Config;
 
+const R_TYPED_PLUGINS = /^@(typescript|stylistic)/;
+
 const a_export = tseslint.config([
 	eslintjs.configs.recommended,
 	tseslint.configs.strictTypeChecked,
@@ -169,6 +171,10 @@ const a_export = tseslint.config([
 	// for all untyped js
 	{
 		name: 'elite-untyped',
+
+		files: [
+			'**/*.{js,cjs,mjs,ts,d.ts,tsx}',
+		],
 
 		// default env that applies to all contexts
 		languageOptions: {
@@ -181,9 +187,15 @@ const a_export = tseslint.config([
 			'i': eslint_plugin_i as any,
 		},
 
+		ignores: [
+			'dist/',
+			'node_modules/',
+			'submodules/',
+		],
+
 		// inherit non-typescript rules from app config
 		rules: from_entries(entries(G_APP.rules)
-			.filter(([si_rule, w_rule]) => !/^@(typescript|stylistic)/.test(si_rule))),
+			.filter(([si_rule, w_rule]) => !R_TYPED_PLUGINS.test(si_rule))),
 	},
 
 	// strongly typed
@@ -199,7 +211,7 @@ const a_export = tseslint.config([
 		},
 
 		rules: from_entries(entries(G_APP.rules)
-			.filter(([si_rule, w_rule]) => /^@(typescript|stylistic)/.test(si_rule))),
+			.filter(([si_rule, w_rule]) => R_TYPED_PLUGINS.test(si_rule))),
 	},
 ]);
 
