@@ -41,7 +41,7 @@ const GC_APP = {
 	parserOptions: {
 		ecmaVersion: 2022,
 		sourceType: 'module',
-		tsconfigRootDir: __dirname,
+		tsconfigRootDir: import.meta.dirname,
 		extraFileExtensions: [
 			'.svelte',
 		],
