@@ -23,6 +23,7 @@ export const H_RULES_ESLINT = {
 			...off([
 				'inner-declarations',
 				'async-promise-executor',
+				'sparse-arrays',
 			]),
 
 			...warn([
