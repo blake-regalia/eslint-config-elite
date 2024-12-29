@@ -591,8 +591,8 @@ const GC_APP = {
 };
 
 export default {
-	// top-level property
-	root: true,
+	// // top-level property
+	// root: true,
 
 	// default env that applies to all contexts
 	env: {

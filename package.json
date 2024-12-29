@@ -23,10 +23,8 @@
 		"dist"
 	],
 	"scripts": {
-		"build:mjs": "tsc -p tsconfig.mjs.json && tsc-esm-fix --target=dist/mjs",
-		"build:cjs": "tsc -p tsconfig.cjs.json",
-		"build": "pnpm run build:mjs && pnpm run build:cjs",
-		"bundle": "rollup --config rollup.config.ts --configPlugin @rollup/plugin-typescript",
+		"build:mjs": "tsc",
+		"build": "pnpm run build:mjs",
 		"test": "pnpm run build && bun test ./test/*.ts"
 	},
 	"devDependencies": {
