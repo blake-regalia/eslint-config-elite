@@ -6,7 +6,9 @@ export const H_RULES_TSESLINT = under({
 	'@typescript-eslint/': {
 		'consistent-indexed-object-style': ['warn', 'record'],
 
-		'explicit-module-boundary-types': ['warn'],
+		'switch-exhaustiveness-check': ['warn', {
+			requireDefaultForNonUnion: true,
+		}],
 
 		...off([
 			'array-type',
@@ -16,10 +18,10 @@ export const H_RULES_TSESLINT = under({
 		]),
 
 		...warn([
-			'switch-exhaustiveness-check',
 			'unified-signatures',
 			'consistent-type-imports',
 			'only-throw-error',
+			'explicit-module-boundary-types',
 		]),
 
 		...error([
