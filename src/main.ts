@@ -9,7 +9,9 @@ import type {
 } from '@blake.regalia/belt';
 
 import {
+	entries,
 	fold,
+	from_entries,
 } from '@blake.regalia/belt';
 
 import {A_NAMING_CONVENTION_RULES} from './naming.js';
@@ -625,7 +627,7 @@ const a_export = [
 		},
 
 		plugins: {
-			'@typescript-eslint': typescript_eslint as any,
+			// '@typescript-eslint': typescript_eslint as any,
 			// 'typescript-sort-keys': sort_keys,
 			// 'perfectionist': perfectionist as any,
 			'perfectionist': perfectionist.configs['recommended-natural'] as any,
@@ -634,7 +636,7 @@ const a_export = [
 		},
 
 		// inherit non-typescript rules from app config
-		rules: Object.fromEntries(Object.entries(A_APP.at(-1)!.rules!)
+		rules: from_entries(entries(A_APP.at(-1)!.rules!)
 			.filter(([si_rule, w_rule]) => !/^@(typescript|stylistic)/.test(si_rule))),
 	},
 
@@ -647,10 +649,13 @@ const a_export = [
 			...A_APP.at(-1)?.plugins ?? {},
 			'@stylistic/ts': stylistic_ts as any,
 			'@typescript-eslint': typescript_eslint as any,
-			'perfectionist': perfectionist.configs['recommended-natural'] as any,
-			'modules-newline': modules_newline as any,
-			'i': eslint_plugin_i as any,
+			// 'perfectionist': perfectionist.configs['recommended-natural'] as any,
+			// 'modules-newline': modules_newline as any,
+			// 'i': eslint_plugin_i as any,
 		},
+
+		rules: from_entries(entries(A_APP.at(-1)!.rules!)
+			.filter(([si_rule, w_rule]) => /^@(typescript|stylistic)/.test(si_rule))),
 	},
 	// {
 	// 	name: 'elite-untyped',
