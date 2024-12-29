@@ -592,38 +592,28 @@ const GC_APP = {
 	},
 };
 
-export default {
-	// // top-level property
-	// root: true,
-
-	// default env that applies to all contexts
-	languageOptions: {
-		ecmaVersion: 2022,
-	},
-
-	// // all plugins used
-	// plugins: [
-	// 	'@typescript-eslint',
-	// 	'typescript-sort-keys',
-	// 	'modules-newline',
-	// 	'i',
-	// ],
-	plugins: {
-		'@typescript-eslint': typescript_eslint,
-		// 'typescript-sort-keys': sort_keys,
-		'perfectionist': perfectionist.configs['recommended-natural'],
-		'modules-newline': modules_newline,
-		'i': eslint_plugin_i,
-	},
-
-	// file-specific overrides
-	overrides: [
-		{
-			...GC_APP,
+export default [
+	{
+		// default env that applies to all contexts
+		languageOptions: {
+			ecmaVersion: 2022,
 		},
-	],
 
-	// inherit non-typescript rules from app config
-	rules: Object.fromEntries(Object.entries(GC_APP.rules)
-		.filter(([si_rule, w_rule]) => !si_rule.startsWith('@typescript'))),
-};
+		plugins: {
+			'@typescript-eslint': typescript_eslint,
+			// 'typescript-sort-keys': sort_keys,
+			'perfectionist': perfectionist.configs['recommended-natural'],
+			'modules-newline': modules_newline,
+			'i': eslint_plugin_i,
+		},
+
+		// inherit non-typescript rules from app config
+		rules: Object.fromEntries(Object.entries(GC_APP.rules)
+			.filter(([si_rule, w_rule]) => !si_rule.startsWith('@typescript'))),
+	},
+	// file-specific overrides
+	{
+		files: ['*.ts', '*.d.ts'],
+		...GC_APP,
+	},
+];
