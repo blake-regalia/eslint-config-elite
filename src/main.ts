@@ -9,6 +9,9 @@ import {
 
 import {A_NAMING_CONVENTION_RULES} from './naming';
 
+// import typescript_eslint from '@typescript-eslint/eslint-plugin';
+// import * as sort_keys from 'eslint-plugin-typescript-sort-keys';
+
 
 function under(h_map: Dict<Dict<unknown>>): Dict<unknown> {
 	const h_out: Dict<unknown> = {};
@@ -586,7 +589,7 @@ const GC_APP = {
 	},
 };
 
-module.exports = {
+export default {
 	// top-level property
 	root: true,
 
@@ -602,6 +605,10 @@ module.exports = {
 		'modules-newline',
 		'i',
 	],
+	// plugins: {
+	// 	'@typescript-eslint': typescript_eslint,
+
+	// },
 
 	// file-specific overrides
 	overrides: [

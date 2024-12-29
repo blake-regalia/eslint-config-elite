@@ -15,7 +15,7 @@ const H_PRIMITIVES: Record<NamingConvTypes | '_other', string[]> = {
 	],
 	string: A_PRIMITIVE_STRING,
 	array: [
-		'a',
+		'a\\d*',
 	],
 	function: [
 		'f[gk]?e?',
@@ -24,7 +24,7 @@ const H_PRIMITIVES: Record<NamingConvTypes | '_other', string[]> = {
 		'd[a-z]{0,2}', 'e', 'g[ca-z]?',
 		'h[m]?', 'k[a-z]{0,2}', 'm', 'r[t]?',
 		...A_PRIMITIVE_STRING,
-		't', 'v', 'w', 'x[cg]', 'y[a-z]{0,2}', 'z',
+		't', 'v', 'w', 'x[cg]', 'y[a-z]{0,2}', 'z[a-z]{0,2}',
 		'a[btsx]', 'at[uif](8|16|32|64)',
 	],
 };
