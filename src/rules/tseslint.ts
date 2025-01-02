@@ -53,6 +53,7 @@ export const H_RULES_TSESLINT = under({
 					'empty-object-type',
 					'unnecessary-type-parameters',
 					'unsafe-function-type',
+					'unnecessary-template-expression',
 				]),
 
 				...warn([
