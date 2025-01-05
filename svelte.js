@@ -1,20 +1,27 @@
-const A_CORE = require('./dist/main.cjs');
+import A_CORE from './dist/mjs/main.js';
 import svelte from 'eslint-plugin-svelte';
+import svelteParser from 'svelte-eslint-parser';
 
-const GC_APP = A_CORE[1];
+const GC_APP = A_CORE.at(-1);
 
 export default [
-	...A_APP,
+	...A_CORE.slice(0, -1),
 
+	...svelte.configs['flat/recommended'],
 	{
 		...GC_APP,
-		files: ['*.svelte'],
-		extends: ['plugin:svelte/recommended'],
+		name: 'elite-svelte-ts',
+		files: [
+			'**/*.{ts,svelte}',
+			'*.{ts,svelte}',
+		],
 		plugins: {
+			...GC_APP.plugins,
 			'svelte': svelte,
 		},
 		languageOptions: {
-			parser: 'svelte-eslint-parser',
+			...GC_APP.languageOptions,
+			parser: svelteParser,
 			parserOptions: {
 				extraFileExtensions: ['.svelte'],
 				parser: {

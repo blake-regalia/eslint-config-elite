@@ -25,6 +25,7 @@ export const H_RULES_ESLINT = {
 				'async-promise-executor',
 				'sparse-arrays',
 				'constant-binary-expression',
+				'unused-vars',
 			]),
 
 			...warn([

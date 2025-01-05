@@ -1,7 +1,7 @@
 import {error, off, under, warn} from '../util.js';
 
-export const H_RULES_I = under({
-	'i/': {
+export const H_RULES_IMPORT_X = under({
+	'import-x/': {
 		...warn([
 			'no-duplicates',
 			'no-self-import',

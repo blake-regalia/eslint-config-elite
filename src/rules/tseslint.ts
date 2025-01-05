@@ -60,10 +60,20 @@ export const H_RULES_TSESLINT = under({
 					'unnecessary-qualifier',
 					'loop-func',
 					'unused-expressions',
-					'unused-vars',
 					'useless-constructor',
 					'duplicate-type-constituents',
 				]),
+
+
+				'unused-vars': ['warn', {
+					args: 'all',
+					argsIgnorePattern: '^_',
+					caughtErrors: 'all',
+					caughtErrorsIgnorePattern: '^_',
+					destructuredArrayIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					ignoreRestSiblings: true
+				}],
 
 				...error([
 					'invalid-this',
