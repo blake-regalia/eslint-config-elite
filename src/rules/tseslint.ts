@@ -4,7 +4,7 @@ import {A_NAMING_CONVENTION_RULES} from '../naming.js';
 
 export const H_RULES_TSESLINT = under({
 	'@typescript-eslint/': {
-		'consistent-indexed-object-style': ['warn', 'record'],
+		// 'consistent-indexed-object-style': ['warn', 'record'],
 
 		'switch-exhaustiveness-check': ['warn', {
 			requireDefaultForNonUnion: true,
@@ -15,6 +15,7 @@ export const H_RULES_TSESLINT = under({
 			'restrict-plus-operands',
 			'ban-types',
 			'consistent-type-definitions',
+			'consistent-indexed-object-style',
 		]),
 
 		...warn([

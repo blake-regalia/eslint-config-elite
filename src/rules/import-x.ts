@@ -49,6 +49,11 @@ export const H_RULES_IMPORT_X = under({
 				},
 				{
 					pattern: '{#,##}/**',
+					group: 'type',
+					position: 'after',
+				},
+				{
+					pattern: '{#,##}/**',
 					group: 'sibling',
 					position: 'before',
 				},
