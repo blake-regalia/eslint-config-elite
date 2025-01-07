@@ -67,12 +67,12 @@ export const H_RULES_TSESLINT = under({
 
 
 				'unused-vars': ['warn', {
-					args: 'all',
-					argsIgnorePattern: '^_',
+					args: 'after-used',
+					argsIgnorePattern: '_$',
 					caughtErrors: 'all',
-					caughtErrorsIgnorePattern: '^_',
-					destructuredArrayIgnorePattern: '^_',
-					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_|_$',
+					destructuredArrayIgnorePattern: '_$',
+					varsIgnorePattern: '^_|_$',
 					ignoreRestSiblings: true
 				}],
 
