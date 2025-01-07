@@ -170,7 +170,7 @@ function* snake_types(a_configs: SnakeConfig[]) {
 				]),
 			] as NamingConvOption['format'],
 			custom: {
-				regex: (gc_types.regex? '(?:': '')+`^(${s_inner})${s_post}`+(gc_types.regex? `|${gc_types.regex})`: ''),
+				regex: (gc_types.regex? '(?:': '')+`^_{0,2}(${s_inner})${s_post}`+(gc_types.regex? `|${gc_types.regex})`: ''),
 				match: true,
 			},
 		};
