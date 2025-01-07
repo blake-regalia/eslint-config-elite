@@ -33,7 +33,7 @@ const A_SNAKE_TYPES = [
 	...Object.values(H_PRIMITIVES).flat(),
 ];
 
-const S_SNAKE_TYPES_UPPER = A_SNAKE_TYPES.map(s => s.toUpperCase()).join('|');
+const S_SNAKE_TYPES_UPPER = A_SNAKE_TYPES.map(s => s.toUpperCase().replace(/\\[A-Z]/g, s => s.toLowerCase())).join('|');
 
 type NamingConvModifier = 
 	| 'abstract'
@@ -154,7 +154,7 @@ function* snake_types(a_configs: SnakeConfig[]) {
 		}
 
 		if(gc_types.caps) {
-			s_inner += `|${a_snake_types.map(s => s.toUpperCase()).join('|')}`;
+			s_inner += `|${a_snake_types.map(s => s.toUpperCase().replace(/\\[A-Z]/g, s => s.toLowerCase())).join('|')}`;
 		}
 
 		const s_post = gc_types.short? '(_|$)': '_';
