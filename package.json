@@ -46,7 +46,6 @@
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {
-		"@blake.regalia/belt": "^0.53.3",
 		"@eslint/eslintrc": "^3.2.0",
 		"@stylistic/eslint-plugin": "^2.13.0",
 		"@stylistic/eslint-plugin-ts": "^2.13.0",

@@ -1,5 +1,4 @@
-import { fold } from '@blake.regalia/belt';
-import {error, off, under, warn} from '../util.js';
+import {fold, error, off, under, warn} from '../util.js';
 
 export const H_RULES_STYLISTIC = under({
 	'@stylistic/': {

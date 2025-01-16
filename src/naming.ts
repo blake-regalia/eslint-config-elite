@@ -1,4 +1,6 @@
-import {concat_entries, type Arrayable} from '@blake.regalia/belt';
+import { concat_entries } from "./util.js";
+
+type Arrayable<w> = w | w[];
 
 const SX_POW2 = '(?:8|16|32|64)';
 
@@ -236,19 +238,19 @@ export const A_NAMING_CONVENTION_RULES: NamingConvOption[] = [
 		caps: 'optional',
 		format: 'function' === si_type? ['snake_case']: [],
 		regex: 'function' === si_type? '[a-z][a-z0-9_]+': '',
-	}))),
-	...snake_types(concat_entries(H_PRIMITIVES, (si_type: SnakeConvType, a_patterns) => ({
+	})) as any),
+	...snake_types(concat_entries(H_PRIMITIVES, (si_type, a_patterns) => ({
 		selector: 'variable',
 		types: [si_type],
 		patterns: a_patterns,
 		caps: 'optional',
-	}))),
+	})) as any),
 	...snake_types(concat_entries(H_PRIMITIVES, (si_type, a_patterns) => ({
 		selector: 'parameter',
 		types: [si_type],
 		patterns: a_patterns,
 		short: true,
-	}))),
+	})) as any),
 
 	// {
 	// 	selector: 'enum',

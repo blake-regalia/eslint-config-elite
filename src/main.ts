@@ -2,8 +2,6 @@ import type {ESLint, Linter} from 'eslint';
 
 import globals from 'globals';
 
-import {entries, from_entries} from '@blake.regalia/belt';
-
 import eslintjs from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import tseslint, { type Config } from 'typescript-eslint';
@@ -156,7 +154,7 @@ const a_export = tseslint.config([
 		],
 
 		// inherit non-typescript rules from app config
-		rules: from_entries(entries(G_APP.rules)
+		rules: Object.fromEntries(Object.entries(G_APP.rules!)
 			.filter(([si_rule, w_rule]) => !R_TYPED_PLUGINS.test(si_rule))),
 	},
 
@@ -170,7 +168,7 @@ const a_export = tseslint.config([
 			'**/*.{js,cjs,mjs}',
 		],
 
-		rules: from_entries(entries(G_APP.rules)
+		rules: Object.fromEntries(Object.entries(G_APP.rules!)
 			.filter(([si_rule, w_rule]) => R_TYPED_PLUGINS.test(si_rule))),
 	},
 ]);
