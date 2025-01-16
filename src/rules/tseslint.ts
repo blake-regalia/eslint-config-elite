@@ -1,6 +1,5 @@
-import {error, off, under, warn} from "../util.js";
-
 import {A_NAMING_CONVENTION_RULES} from '../naming.js';
+import {error, off, under, warn} from '../util.js';
 
 export const H_RULES_TSESLINT = under({
 	'@typescript-eslint/': {

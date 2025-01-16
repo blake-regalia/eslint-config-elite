@@ -1,12 +1,14 @@
 {
-	"extends": "@blake.regalia/tsconfig/tsconfig.node.json",
+	"extends": "@blake.regalia/tsconfig/tsconfig.core.json",
 
 	"compilerOptions": {
+		"declaration": false,
+		"declarationMap": false,
+
 		"baseUrl": ".",
 		"outDir": "dist/mjs",
-
 		"module": "NodeNext",
-		"moduleResolution": "NodeNext",
+		"moduleResolution": "nodenext",
 	},
 
 	"include": [
