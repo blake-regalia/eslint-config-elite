@@ -64,7 +64,8 @@
 	},
 	"peerDependencies": {
 		"@typescript-eslint/parser": ">=8",
-		"eslint": ">=9"
+		"eslint": ">=9",
+		"eslint-import-resolver-typescript": ">=3"
 	},
 	"peerDependenciesMeta": {
 		"eslint-plugin-svelte": {
