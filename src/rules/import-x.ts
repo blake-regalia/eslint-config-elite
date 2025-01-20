@@ -8,6 +8,8 @@ export const H_RULES_IMPORT_X = under({
 			// 'first',
 		]),
 
+		'consistent-type-specifier-style': ['warn', 'prefer-top-level'],
+
 		...under({
 			'no-': {
 				cycle: ['warn', {

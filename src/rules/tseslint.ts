@@ -9,6 +9,11 @@ export const H_RULES_TSESLINT = under({
 			requireDefaultForNonUnion: true,
 		}],
 
+		'@typescript-eslint/consistent-type-imports': ['warn', {
+			fixStyle: 'separate-type-imports',
+			prefer: 'type-imports',
+		}],
+
 		...off([
 			'array-type',
 			'restrict-plus-operands',
